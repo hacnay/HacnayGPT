@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ChatGPT Demo</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+		}
+		
+		header {
+			background-color: #333;
+			color: #fff;
+			padding: 20px;
+			text-align: center;
+		}
+		
+		main {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 20px;
+		}
+		
+		h1 {
+			margin-top: 0;
+		}
+		
+		label {
+			font-weight: bold;
+			margin-bottom: 10px;
+		}
+		
+		input[type="text"] {
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			width: 100%;
+			margin-bottom: 20px;
+		}
+		
+		button {
+			background-color: #333;
+			color: #fff;
+			padding: 10px 20px;
+			border: none;
+			border-radius: 5px;
+			cursor: pointer;
+			font-size: 16px;
+			margin-bottom: 20px;
+		}
+		
+		button:hover {
+			background-color: #555;
+		}
+		
+		p {
+			margin: 0;
+			line-height: 1.5;
+			padding: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			width: 100%;
+			max-width: 800px;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<h1>ChatGPT Demo</h1>
+	</header>
+	<main>
+		<label for="prompt">Enter your question or prompt:</label>
+		<input type="text" id="prompt" placeholder="e.g. What is the meaning of life?">
+		<button id="generate-btn">Generate</button>
+		<p id="generated-text"></p>
+	</main>
+	<script src="https://cdn.jsdelivr.net/npm/@openai/api@0.7.3/dist/web.js"></script>
+	<script>
+		const openai = new OpenAI(api_key = "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");
+		const generateBtn = document.querySelector("#generate-btn");
+		const generatedTextElement = document.querySelector("#generated-text");
+
+		generateBtn.addEventListener("click", () => {
+			const prompt = document.querySelector("#prompt").value.trim();
+
+			openai.complete({
+				engine: "davinci",
+				prompt: prompt,
+				max_tokens: 1024,
+				n: 1,
+				stop: null,
+				temperature: 0.7,
+			}).then(response => {
+				const generatedText = response.choices[0].text.trim();
+				generatedTextElement.textContent = generatedText;
+			}).catch(error => {
+				console.error(error);
+			});
+		});
+	</script>
+</body>
+</html>
